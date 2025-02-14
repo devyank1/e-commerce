@@ -6,7 +6,7 @@ import com.dev.yank.ecommerce.model.Review;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, Product.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, ProductMapper.class})
 public interface ReviewMapper {
 
     @Mapping(source = "user", target = "user")
