@@ -1,11 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/e-commerce
+    url: jdbc:postgresql://localhost:5432/ecommerce
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-jpa:
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
-  hibernate:
-    ddl-auto: update
-  show-sql: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8081  # Altere a porta se necessário
