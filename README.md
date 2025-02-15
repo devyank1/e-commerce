@@ -1,3 +1,10 @@
+<h1 align="center">E-Commerce Project Architecture</h1>
+
+<p align="center">
+  <img src="images/spring-logo.png" width="300">
+    <img src="images/java-logo.png" width="200">
+</p>
+
 ```mermaid
 classDiagram
     class User {
