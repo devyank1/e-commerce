@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src="images/spring-logo.png" width="300">
-  
 </p>
 
 ```mermaid
