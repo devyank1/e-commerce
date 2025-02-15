@@ -41,5 +41,24 @@ public class UserService {
         return userMapper.toDTO(savedUser);
     }
 
+    @Transactional
+    public UserDTO updateUser(Long id, UserDTO updateUser) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
 
+        existingUser.setUsername(updateUser.username());
+        existingUser.setEmail(updateUser.email());
+        existingUser.setPassword(updateUser.password());
+        existingUser.setRole(updateUser.role());
+
+        User updatedUser = userRepository.save(existingUser);
+        return userMapper.toDTO(updatedUser);
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("User not found with ID: " + id);
+        }
+    }
 }
