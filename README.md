@@ -9,7 +9,6 @@
 ```mermaid
 classDiagram
     class User {
-        +Long id
         +String username
         +String email
         +String password
@@ -18,7 +17,6 @@ classDiagram
     }
     
     class Order {
-        +Long id
         +Date orderDate
         +Double totalAmount
         +OrderStatus status
@@ -27,7 +25,6 @@ classDiagram
     }
 
     class OrderItem {
-        +Long id
         +Integer quantity
         +Double price
         +Order order
@@ -35,7 +32,6 @@ classDiagram
     }
 
     class Product {
-        +Long id
         +String name
         +String description
         +Double price
@@ -43,20 +39,17 @@ classDiagram
     }
 
     class Category {
-        +Long id
         +String name
         +List~Product~ products
     }
 
     class Payment {
-        +Long id
         +Date paymentDate
         +Double amount
         +Order order
     }
 
     class Review {
-        +Long id
         +String comment
         +Integer rating
         +User user
