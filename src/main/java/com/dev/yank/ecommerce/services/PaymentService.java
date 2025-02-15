@@ -5,6 +5,7 @@ import com.dev.yank.ecommerce.exception.PaymentNotFoundException;
 import com.dev.yank.ecommerce.mapper.PaymentMapper;
 import com.dev.yank.ecommerce.model.Payment;
 import com.dev.yank.ecommerce.repository.PaymentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +35,14 @@ public class PaymentService {
         return paymentMapper.toDTO(payment);
     }
 
+    @Transactional
     public PaymentDTO createPayment(PaymentDTO newPayment) {
         Payment payment = paymentMapper.toEntity(newPayment);
         Payment savedPayment = paymentRepository.save(payment);
         return paymentMapper.toDTO(savedPayment);
     }
 
+    @Transactional
     public PaymentDTO updatePayment(Long id, PaymentDTO updatePayment) {
         Payment existingPayment = paymentRepository.findById(id)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
@@ -53,6 +56,7 @@ public class PaymentService {
         return paymentMapper.toDTO(updatedPayment);
     }
 
+    @Transactional
     public void deletePayment(Long id) {
         if (!paymentRepository.existsById(id)) {
             throw new PaymentNotFoundException("Payment not found with ID: " + id);

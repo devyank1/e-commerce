@@ -5,6 +5,7 @@ import com.dev.yank.ecommerce.exception.ProductNotFoundException;
 import com.dev.yank.ecommerce.mapper.ProductMapper;
 import com.dev.yank.ecommerce.model.Product;
 import com.dev.yank.ecommerce.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +35,14 @@ public class ProductService {
         return productMapper.toDTO(product);
     }
 
+    @Transactional
     public ProductDTO createProduct(ProductDTO newProduct) {
         Product product = productMapper.toEntity(newProduct);
         Product savedProduct = productRepository.save(product);
         return productMapper.toDTO(savedProduct);
     }
 
+    @Transactional
     public ProductDTO updateProduct(Long id, ProductDTO updateProduct) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
@@ -53,6 +56,7 @@ public class ProductService {
         return productMapper.toDTO(productUpdated);
     }
 
+    @Transactional
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException("Product not found with ID: " + id);
