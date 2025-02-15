@@ -6,6 +6,8 @@ import com.dev.yank.ecommerce.mapper.UserMapper;
 import com.dev.yank.ecommerce.model.User;
 import com.dev.yank.ecommerce.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,9 @@ public class UserService {
     }
 
     // Methods
-    public List<UserDTO> getUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(userMapper::toDTO).toList();
+    public Page<UserDTO> getUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(userMapper::toDTO);
     }
 
     public UserDTO getUserById(Long id) {

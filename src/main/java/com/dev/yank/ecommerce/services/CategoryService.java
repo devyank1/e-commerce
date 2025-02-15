@@ -6,6 +6,8 @@ import com.dev.yank.ecommerce.mapper.CategoryMapper;
 import com.dev.yank.ecommerce.model.Category;
 import com.dev.yank.ecommerce.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,9 @@ public class CategoryService {
     }
 
     // Methods
-    public List<CategoryDTO> getCategories() {
-        return categoryRepository.findAll()
-                .stream()
-                .map(categoryMapper::toDTO).toList();
+    public Page<CategoryDTO> getCategories(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(categoryMapper::toDTO);
     }
 
     public CategoryDTO getCategoryById(Long id) {

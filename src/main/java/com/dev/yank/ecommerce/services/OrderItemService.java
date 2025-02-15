@@ -6,6 +6,8 @@ import com.dev.yank.ecommerce.mapper.OrderItemMapper;
 import com.dev.yank.ecommerce.model.OrderItem;
 import com.dev.yank.ecommerce.repository.OrderItemRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,9 @@ public class OrderItemService {
     }
 
     // Methods
-    public List<OrderItemDTO> getOrderItems() {
-        return orderItemRepository.findAll()
-                .stream()
-                .map(orderItemMapper::toDTO).toList();
+    public Page<OrderItemDTO> getOrderItems(Pageable pageable) {
+        Page<OrderItem> orderItems = orderItemRepository.findAll(pageable);
+        return orderItems.map(orderItemMapper::toDTO);
     }
 
     public OrderItemDTO getOrderItemById(Long id) {

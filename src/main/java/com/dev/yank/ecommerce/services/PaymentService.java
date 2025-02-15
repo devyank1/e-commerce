@@ -6,6 +6,8 @@ import com.dev.yank.ecommerce.mapper.PaymentMapper;
 import com.dev.yank.ecommerce.model.Payment;
 import com.dev.yank.ecommerce.repository.PaymentRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,9 @@ public class PaymentService {
     }
 
     // Methods
-    public List<PaymentDTO> getPayments() {
-        return paymentRepository.findAll()
-                .stream()
-                .map(paymentMapper::toDTO).toList();
+    public Page<PaymentDTO> getPayments(Pageable pageable) {
+        Page<Payment> payments = paymentRepository.findAll(pageable);
+        return payments.map(paymentMapper::toDTO);
     }
 
     public PaymentDTO getPaymentById(Long id) {

@@ -12,4 +12,10 @@ spring:
     show-sql: true
 
 server:
-  port: 8081  # Altere a porta se necessário
+  port: 8081
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 20

@@ -6,6 +6,8 @@ import com.dev.yank.ecommerce.mapper.ProductMapper;
 import com.dev.yank.ecommerce.model.Product;
 import com.dev.yank.ecommerce.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,9 @@ public class ProductService {
     }
 
     // Methods
-    public List<ProductDTO> getProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(productMapper::toDTO).toList();
+    public Page<ProductDTO> getProducts(Pageable pageable) {
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.map(productMapper::toDTO);
     }
 
     public ProductDTO getProductsById(Long id) {
