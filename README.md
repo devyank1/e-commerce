@@ -4,6 +4,8 @@
   <img src="images/spring-logo.png" width="300">
 </p>
 
+<h2>Class Diagram:</h2>
+
 ```mermaid
 classDiagram
     class User {
