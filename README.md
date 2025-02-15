@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="images/spring-logo.png" width="300">
-    <img src="images/java-logo.png" width="200">
+  
 </p>
 
 ```mermaid
