@@ -17,10 +17,11 @@ server:
   data:
     web:
       pageable:
-        default-page-size: 10
-        max-page-size: 20
+        default-page-size: 5
+        max-page-size: 5
 
   paypal:
-    client-id: AWaqJsXCeLZ4jSJcTM2Bp9dOGs3GL3TK_1xl6BWWh6pGJjZSRkHtKF89YiVJsvauGUdfI_a33fP_vIXO
-    secret: ECf9I921JROqUwXcTaksmpjKgJkUKQ2W5T3imwvFLqYQ5iCKe3mOx8pDVu-5JsRsyTrLwwGeiJoW7SeQ
-    mode: sandbox
+    paypal:
+      client-id: ${PAYPAL_CLIENT_ID}
+      secret: ${PAYPAL_SECRET}
+      mode: sandbox
