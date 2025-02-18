@@ -16,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PaymentService {
@@ -26,11 +24,13 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final OrderRepository orderRepository;
+    private final PayPalService payPalService;
 
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, OrderRepository orderRepository) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, OrderRepository orderRepository, PayPalService payPalService) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.orderRepository = orderRepository;
+        this.payPalService = payPalService;
     }
 
     // Methods
@@ -63,11 +63,13 @@ public class PaymentService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found."));
 
+        String paypalPaymentId = payPalService.createPayment(payment.amount(), "USD");
+
         Payment newPayment = new Payment();
         newPayment.setAmount(payment.amount());
         newPayment.setPaymentDate(new Date());
         newPayment.setPaymentStatus(PaymentStatus.PENDING);
-        newPayment.setTransactionId(UUID.randomUUID().toString());
+        newPayment.setTransactionId(paypalPaymentId);
         newPayment.setOrder(order);
 
         Payment savedPayment = paymentRepository.save(newPayment);
