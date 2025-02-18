@@ -11,10 +11,10 @@ public interface OrderItemMapper {
     OrderItemMapper INSTANCE = Mappers.getMapper(OrderItemMapper.class);
 
     @Mapping(source = "product", target = "product")
-    @Mapping(source = "order", target = "order")
+    @Mapping(source = "order", target = "order", ignore = true)
     OrderItemDTO toDTO(OrderItem orderItem);
 
     @Mapping(source = "product", target = "product")
-    @Mapping(source = "order", target = "order")
+    @Mapping(source = "order", target = "order", ignore = true)
     OrderItem toEntity(OrderItemDTO dto);
 }
