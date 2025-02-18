@@ -35,11 +35,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<!--WEB-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<!--DEVTOOLS-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -47,6 +49,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
 		<!--TESTS-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -66,10 +69,19 @@
 			<version>1.5.3.Final</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!--POSTGRESQL-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!--PAYPAL API-->
+		<dependency>
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>rest-api-sdk</artifactId>
+			<version>1.14.0</version>
 		</dependency>
 
 	</dependencies>

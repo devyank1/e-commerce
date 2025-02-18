@@ -1,6 +1,7 @@
 package com.dev.yank.ecommerce.model;
 
 import com.dev.yank.ecommerce.model.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
