@@ -1,16 +1,23 @@
 package com.dev.yank.ecommerce.services;
 
 import com.dev.yank.ecommerce.dto.PaymentDTO;
+import com.dev.yank.ecommerce.exception.OrderNotFoundException;
 import com.dev.yank.ecommerce.exception.PaymentNotFoundException;
 import com.dev.yank.ecommerce.mapper.PaymentMapper;
+import com.dev.yank.ecommerce.model.Order;
 import com.dev.yank.ecommerce.model.Payment;
+import com.dev.yank.ecommerce.model.enums.PaymentStatus;
+import com.dev.yank.ecommerce.repository.OrderRepository;
 import com.dev.yank.ecommerce.repository.PaymentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PaymentService {
@@ -18,10 +25,12 @@ public class PaymentService {
     // Injection
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final OrderRepository orderRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.orderRepository = orderRepository;
     }
 
     // Methods
@@ -41,6 +50,34 @@ public class PaymentService {
         Payment payment = paymentMapper.toEntity(newPayment);
         Payment savedPayment = paymentRepository.save(payment);
         return paymentMapper.toDTO(savedPayment);
+    }
+
+    // Payment Process
+    @Transactional
+    public PaymentDTO processPayment(Long orderId, PaymentDTO payment) {
+
+        if (paymentRepository.existsByOrderId(orderId)) {
+            throw new IllegalStateException("There is already a payment for this Order.");
+        }
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found."));
+
+        Payment newPayment = new Payment();
+        newPayment.setAmount(payment.amount());
+        newPayment.setPaymentDate(new Date());
+        newPayment.setPaymentStatus(PaymentStatus.PENDING);
+        newPayment.setTransactionId(UUID.randomUUID().toString());
+        newPayment.setOrder(order);
+
+        Payment savedPayment = paymentRepository.save(newPayment);
+        return paymentMapper.toDTO(savedPayment);
+    }
+
+    public String getPaymentStatus(String transactionId) {
+        return paymentRepository.findByTransactionId(transactionId)
+                .map(payment -> payment.getPaymentStatus().name())
+                .orElseThrow(() -> new EntityNotFoundException("Payment not found for Transaction: " + transactionId));
     }
 
     @Transactional
