@@ -4,6 +4,7 @@ import com.dev.yank.ecommerce.dto.PaymentDTO;
 import com.dev.yank.ecommerce.services.PaymentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,18 @@ public class PaymentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
         return ResponseEntity.noContent().build();
+    }
+
+    // Payment Process
+    @PostMapping("/process/{orderId}")
+    public ResponseEntity<PaymentDTO> processPayment(@PathVariable Long orderId, @RequestBody PaymentDTO payment) {
+        PaymentDTO processingPayment = paymentService.processPayment(orderId, payment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(processingPayment);
+    }
+
+    @GetMapping("/status/{transactionId}")
+    public ResponseEntity<String> verifyPaymentStatus(@PathVariable String transactionId) {
+        String status = paymentService.getPaymentStatus(transactionId);
+        return ResponseEntity.ok(status);
     }
 }
