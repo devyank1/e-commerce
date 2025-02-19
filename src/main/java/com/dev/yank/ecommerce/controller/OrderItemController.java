@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/order-item")
+@RequestMapping("/order-items")
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
