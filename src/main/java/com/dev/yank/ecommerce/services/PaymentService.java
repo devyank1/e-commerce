@@ -96,6 +96,27 @@ public class PaymentService {
         return paymentMapper.toDTO(updatedPayment);
     }
 
+    // Payment Update
+    @Transactional
+    public void updatePaymentStatus(String transactionId) {
+        Payment payment = paymentRepository.findByTransactionId(transactionId)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + transactionId));
+
+        String paypalStatus = payPalService.getPaymentStatus(transactionId);
+
+        if ("approved".equalsIgnoreCase(paypalStatus)) {
+            payment.setPaymentStatus(PaymentStatus.COMPLETED);
+        } else if ("failed".equalsIgnoreCase(paypalStatus)) {
+            payment.setPaymentStatus(PaymentStatus.FAILED);
+        } else if ("pending".equalsIgnoreCase(paypalStatus)) {
+            payment.setPaymentStatus(PaymentStatus.PENDING);
+        } else if ("canceled".equalsIgnoreCase(paypalStatus)) {
+            payment.setPaymentStatus(PaymentStatus.CANCELLED);
+        }
+
+        paymentRepository.save(payment);
+    }
+
     @Transactional
     public void deletePayment(Long id) {
         if (!paymentRepository.existsById(id)) {

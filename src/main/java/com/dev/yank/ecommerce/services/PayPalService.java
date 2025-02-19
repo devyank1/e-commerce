@@ -76,7 +76,10 @@ public class PayPalService {
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         ResponseEntity<Map> response = restTemplate.exchange(
-                PAYPAL_API_BASE + "/payments/payment" + paymentId, HttpMethod.GET, request, Map.class
+                PAYPAL_API_BASE + "/payments/payment/" + paymentId,
+                HttpMethod.GET,
+                request,
+                Map.class
         );
 
         return response.getBody().get("state").toString();
