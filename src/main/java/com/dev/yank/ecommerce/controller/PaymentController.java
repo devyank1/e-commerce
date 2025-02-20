@@ -44,6 +44,7 @@ public class PaymentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
+        paymentService.deletePayment(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -58,5 +59,12 @@ public class PaymentController {
     public ResponseEntity<String> verifyPaymentStatus(@PathVariable String transactionId) {
         String status = paymentService.getPaymentStatus(transactionId);
         return ResponseEntity.ok(status);
+    }
+
+    // Check Payment Status
+    @GetMapping("/update-status/{transactionId}")
+    public ResponseEntity<String> updatePaymentStatus(@PathVariable String transactionId) {
+        paymentService.updatePaymentStatus(transactionId);
+        return ResponseEntity.ok("Payment Status updated successfully.");
     }
 }
