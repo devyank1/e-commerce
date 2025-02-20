@@ -20,8 +20,7 @@ server:
         default-page-size: 5
         max-page-size: 5
 
-  paypal:
-    paypal:
-      client-id: ${PAYPAL_CLIENT_ID}
-      secret: ${PAYPAL_SECRET}
-      mode: sandbox
+paypal:
+  client-id: ${CLIENT_ID}
+  secret: ${SECRET}
+  mode: sandbox

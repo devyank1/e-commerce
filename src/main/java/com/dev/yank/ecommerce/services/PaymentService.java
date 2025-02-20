@@ -52,6 +52,27 @@ public class PaymentService {
         return paymentMapper.toDTO(savedPayment);
     }
 
+    @Transactional
+    public PaymentDTO updatePayment(Long id, PaymentDTO updatePayment) {
+        Payment existingPayment = paymentRepository.findById(id)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
+
+        existingPayment.setPaymentDate(updatePayment.paymentDate());
+        existingPayment.setPaymentStatus(updatePayment.paymentStatus());
+        existingPayment.setAmount(updatePayment.amount());
+        existingPayment.setTransactionId(updatePayment.transactionId());
+
+        Payment updatedPayment = paymentRepository.save(existingPayment);
+        return paymentMapper.toDTO(updatedPayment);
+    }
+
+    @Transactional
+    public void deletePayment(Long id) {
+        if (!paymentRepository.existsById(id)) {
+            throw new PaymentNotFoundException("Payment not found with ID: " + id);
+        }
+    }
+
     // Payment Process
     @Transactional
     public PaymentDTO processPayment(Long orderId, PaymentDTO payment) {
@@ -82,20 +103,6 @@ public class PaymentService {
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found for Transaction: " + transactionId));
     }
 
-    @Transactional
-    public PaymentDTO updatePayment(Long id, PaymentDTO updatePayment) {
-        Payment existingPayment = paymentRepository.findById(id)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
-
-        existingPayment.setPaymentDate(updatePayment.paymentDate());
-        existingPayment.setPaymentStatus(updatePayment.paymentStatus());
-        existingPayment.setAmount(updatePayment.amount());
-        existingPayment.setTransactionId(updatePayment.transactionId());
-
-        Payment updatedPayment = paymentRepository.save(existingPayment);
-        return paymentMapper.toDTO(updatedPayment);
-    }
-
     // Payment Update
     @Transactional
     public void updatePaymentStatus(String transactionId) {
@@ -117,10 +124,4 @@ public class PaymentService {
         paymentRepository.save(payment);
     }
 
-    @Transactional
-    public void deletePayment(Long id) {
-        if (!paymentRepository.existsById(id)) {
-            throw new PaymentNotFoundException("Payment not found with ID: " + id);
-        }
-    }
 }

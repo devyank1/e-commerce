@@ -1,7 +1,6 @@
 package com.dev.yank.ecommerce.services;
 
 import com.dev.yank.ecommerce.config.paypal.PayPalConfig;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

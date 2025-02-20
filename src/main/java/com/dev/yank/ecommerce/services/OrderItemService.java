@@ -52,7 +52,7 @@ public class OrderItemService {
         existingOrderItem.setQuantity(updateOrderItem.quantity());
 
         OrderItem updatedOrderItem = orderItemRepository.save(existingOrderItem);
-        return orderItemMapper.toDTO(existingOrderItem);
+        return orderItemMapper.toDTO(updatedOrderItem);
     }
 
     @Transactional
