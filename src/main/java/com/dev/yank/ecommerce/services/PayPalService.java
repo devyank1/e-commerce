@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 @Service
 public class PayPalService {
 
-    private static final String PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com";
+    private static final String PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com/v1";
 
     private final RestTemplate restTemplate;
     private final String clientId;
@@ -30,12 +31,14 @@ public class PayPalService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(clientId, secret);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Charset", "UTF-8");
 
         HttpEntity<String> request = new HttpEntity<>("grant_type=client_credentials", headers);
 
         ResponseEntity<Map> response = restTemplate.exchange(authUrl, HttpMethod.POST, request, Map.class);
 
-        return response.getBody().get("access-token").toString();
+        return response.getBody().get("access_token").toString();
     }
 
     public String createPayment(Double amount, String currency) {
@@ -60,7 +63,12 @@ public class PayPalService {
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(paymentDetails, headers);
 
-        ResponseEntity<Map> response = restTemplate.exchange(PAYPAL_API_BASE+ "/payments/payment", HttpMethod.POST, request, Map.class);
+        ResponseEntity<Map> response = restTemplate.exchange(
+                PAYPAL_API_BASE + "/payments/payment",
+                HttpMethod.POST,
+                request,
+                Map.class
+        );
 
         return response.getBody().get("id").toString();
     }
