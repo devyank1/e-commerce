@@ -6,6 +6,7 @@ import com.dev.yank.ecommerce.exception.PaymentNotFoundException;
 import com.dev.yank.ecommerce.mapper.PaymentMapper;
 import com.dev.yank.ecommerce.model.Order;
 import com.dev.yank.ecommerce.model.Payment;
+import com.dev.yank.ecommerce.model.User;
 import com.dev.yank.ecommerce.model.enums.PaymentStatus;
 import com.dev.yank.ecommerce.repository.OrderRepository;
 import com.dev.yank.ecommerce.repository.PaymentRepository;
@@ -77,12 +78,13 @@ public class PaymentService {
     @Transactional
     public PaymentDTO processPayment(Long orderId, PaymentDTO payment) {
 
-        if (paymentRepository.existsByOrderId(orderId)) {
-            throw new IllegalStateException("There is already a payment for this Order.");
-        }
-
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found."));
+
+        User user = order.getUser();
+        if (user == null) {
+            throw new IllegalStateException("Order ID " + orderId + " does not have an associated user.");
+        }
 
         String paypalPaymentId = payPalService.createPayment(payment.amount(), "USD");
 
