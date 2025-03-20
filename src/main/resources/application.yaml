@@ -36,3 +36,14 @@ paypal:
   client-id: ${CLIENT_ID}
   secret: ${SECRET}
   mode: sandbox
+
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: ecommerce-group
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
