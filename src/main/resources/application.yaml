@@ -6,7 +6,6 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -26,6 +25,12 @@ security:
       jwt:
         issuer-uri: http://localhost:8080/realms/ecommerce
         jwk-set-uri: http://localhost:8080/realms/ecommerce/protocol/openid-connect/certs
+
+keycloak:
+  token-uri: http://localhost:8080/realms/ecommerce/protocol/openid-connect/token
+  client-id: ecommerce-backend
+  client-secret: ${KEYCLOAK_CLIENT_SECRET}
+
 
 paypal:
   client-id: ${CLIENT_ID}
