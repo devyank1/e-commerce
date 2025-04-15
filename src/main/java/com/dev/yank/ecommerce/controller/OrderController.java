@@ -28,22 +28,4 @@ public class OrderController {
         OrderDTO order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
-
-    @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO newOrder) {
-        OrderDTO order = orderService.createOrder(newOrder);
-        return ResponseEntity.ok(order);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long id, @RequestBody OrderDTO updateOrder) {
-        OrderDTO order = orderService.updateOrder(id, updateOrder);
-        return ResponseEntity.ok(order);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
-    }
 }
