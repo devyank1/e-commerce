@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
                         .requestMatchers("/seller/**").hasRole("SELLER")
+                        .requestMatchers("/shipping/test").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
