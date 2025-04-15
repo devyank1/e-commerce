@@ -47,3 +47,7 @@ kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+shippo:
+  api:
+    key: ${SHIPPO_API_KEY}
